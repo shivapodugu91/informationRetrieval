@@ -1,0 +1,42 @@
+Simple statistical retrieval system: Information Retrieval CS 6322
+
+Programming_project:  Shiva Podugu 
+
+Program description:
+
+This assignment helps us to learn and implement various concepts like  stemming, lemmatization, indexing, encoding, block compression.
+
+stopwords.txt
+It contains the stopwords used in the program.
+
+IR2.java
+Contains main class and main method which uses Stemmer.java, stopwords.txt and stanfordnlp and contains all other main methods to build indexes and implement various algorithms.
+
+Stemmer.java
+Purpose: To obtain the root of a given word.
+It is the implementation of the Porter stemmer algorithm available in open-source.
+
+stanfornlp for lemmatization
+Purpose: To obtain the stems of a given word.
+It is the implementation of the stanfordnlp available online.
+
+Description:
+Files and stopwords are read from the commandline arguments and are fetched using various methods.
+The files are retrieved and parsed same as in Assignment 1.
+stanfornlp is used for lemmatization of tokens.
+Porter stemmer is used for stemming tokens.
+Indexes of different versions are created using  above fetched words lemmas and stems.
+we have two files for each uncompressed index. Then the blockcompression method is called for Index 1 to apply blockcompression for dictionary and gamma encoding for postings file. Similarly, the frontcoding method is called for Index 2 to apply front coding compression and delta encoding for postings file. After the indexes are compressed, 4 files are generated – 2 for each index (1 compressed file for dictionary and another for postings)
+The Index 1 is compressed as follows:
+For the dictionary, each word is kept in a buffer and a count is incremented. When the count is k=8, the buffer is flushed out to a file appended with its length and the count is set to 0.
+If count is not 8, buffers is appended by the current dictionary ter
+For the postings file, gamma code is calculated for the each of the 4 integers – tf, df, max_tf and doclen and it is converted into bytes and written into a separate file.
+The Index 2 is compressed as follows: -
+For the dictionary, all the words are sorted and then minimum length for the words is obtained. This minimum length is the length of the prefix and then each term is trimmed by this prefix and appended to the front code. 
+	This front code is then written to a file.
+For the postings file, delta code is calculated for the each of the 4 integers – tf, df, max_tf and doclen and it is converted into bytes and written into a separate file.
+After the above step we have 4 compressed files, and the program reports the size of each by adding up sizes of dictionary and postings compressed files for each index and also the time taken to compress those indexes
+Then the method showData is called to display the df, tf, and inverted list length (in bytes) for the terms: "Reynolds", "NASA", "Prandtl", "flow", "pressure", "boundary", "shock"
+For each term, the inverted list size is calculated as: - Sum of (Integer size for each of docID, max_tf, df, doclen)
+Then results for “NASA” displayed along with peak and lowest terms for each index using NasaResults method.
+Lastly, the documents with largest max_tf and doclen are displayed.
